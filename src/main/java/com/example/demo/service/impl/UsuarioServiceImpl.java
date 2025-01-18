@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.entity.Producto;
 import com.example.demo.entity.Usuario;
 import com.example.demo.repository.UsuarioRepository;
 import com.example.demo.service.UsuarioService;
@@ -32,5 +33,24 @@ public class UsuarioServiceImpl implements UsuarioService{
     @Override
     public Usuario getUsuarioById(int id) {
         return usuarioRepository.findById(id).orElse(null);
+    }
+    
+    @Override
+    public Usuario findByUsernameAndPassword(String username, String password) {
+        return usuarioRepository.findByUsuarioAndPassword(username, password);
+    }
+    
+    @Override
+    public List<Usuario> buscarPorFiltro(String tipo, String valor) {
+        switch (tipo) {
+            case "usuario":
+                return usuarioRepository.findByUsuarioContaining(valor);
+            case "nombre":
+                return usuarioRepository.findByNombreContaining(valor);
+            case "apellido":
+                return usuarioRepository.findByApellidoContaining(valor);
+            default:
+                return listAllUsuario();
+        }
     }
 }

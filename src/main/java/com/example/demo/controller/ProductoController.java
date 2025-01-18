@@ -4,46 +4,75 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.example.demo.entity.Producto;
 import com.example.demo.service.ProductoService;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/producto")
 public class ProductoController {
-	@Autowired
-	@Qualifier("productoservice")
-	private ProductoService productoService;
-	
-	@GetMapping("/lista")
-	public ModelAndView listAllProductos() {
-		ModelAndView mav = new ModelAndView("lista");
-		mav.addObject("productos", productoService.listAllProducto());
-		return mav;
-	}
-	
-	@PostMapping("/agregar")
-    public String addProducto(@ModelAttribute Producto producto) {
+    
+    @Autowired
+    @Qualifier("productoservice")
+    private ProductoService productoService;
+    
+    @GetMapping("/listaProducto")
+    public ModelAndView listAllProductos() {
+        ModelAndView mav = new ModelAndView("listaProducto");
+        List<Producto> productos = productoService.listAllProducto();
+        if (productos == null || productos.isEmpty()) {
+            System.out.println("No se encontraron productos en la base de datos.");
+        }
+        mav.addObject("productos", productos);
+        return mav;
+    }
+
+
+    // Buscar productos según filtro
+    @GetMapping("/buscar")
+    @ResponseBody
+    public List<Producto> buscarProducto(@RequestParam("tipo") String tipo, @RequestParam("valor") String valor) {
+        if (tipo.equals("todos")) {
+            return productoService.listAllProducto();
+        } else {
+            return productoService.buscarPorFiltro(tipo, valor);
+        }
+    }
+
+	// Agregar un nuevo producto
+	@PostMapping("/guardar")
+	@ResponseBody
+	public String addProducto(@RequestBody Producto producto) {
 		productoService.addProducto(producto);
-        return "redirect:/producto/lista";
-    }
+		return "Producto guardado correctamente";
+	}
 
-    @GetMapping("/eliminar/{id}")
-    public String deleteProducto(@PathVariable("id") int id) {
-    	productoService.deleteProducto(id);
-        return "redirect:/producto/lista";
-    }
-
+    // Obtener un producto por su ID (para edición)
     @GetMapping("/editar/{id}")
-    public String editProducto(@PathVariable("id") int id, Model model) {
-    	Producto producto = productoService.getProductoById(id);
-        model.addAttribute("producto", producto);
-        model.addAttribute("productos", productoService.listAllProducto());
-        return "lista";
+    @ResponseBody
+    public Producto getProducto(@PathVariable("id") int id) {
+        return productoService.getProductoById(id);
+    }
+
+    // Eliminar un producto
+    @DeleteMapping("/eliminar/{id}")
+    @ResponseBody
+    public String deleteProducto(@PathVariable("id") int id) {
+        productoService.deleteProducto(id);
+        return "Producto eliminado correctamente";
+    }
+    
+    @GetMapping("/nuevo")
+    public String nuevoProducto() {
+        return "Producto/NuevoProducto";
+    }
+
+    @GetMapping("/gestionar")
+    public String gestionarProducto() {
+        return "Producto/GestionProducto";
     }
 }

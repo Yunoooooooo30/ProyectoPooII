@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Productos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      padding: 20px;
+      background-color: #4CAF50;
+      color: white;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    label {
+      font-size: 1.1em;
+      margin-right: 10px;
+    }
+
+    select, input[type="text"] {
+      padding: 8px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    button {
+      padding: 10px 15px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    td {
+      background-color: #fff;
+      border: 1px solid #ddd;
+    }
+
+    td button {
+      padding: 6px 12px;
+      margin: 5px;
+      background-color: #ff9800;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    td button:hover {
+      background-color: #f57c00;
+    }
+
+    .search-container {
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .search-container input {
+      width: 300px;
+    }
+
+    .search-container button {
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Gestión de Productos</h1>
+
+  <div class="container">
+    <div class="search-container">
+      <div>
+        <label for="filtro">Buscar por:</label>
+        <select id="filtro">
+          <option value="todos">Todos</option>
+          <option value="codigo">Código</option>
+          <option value="marca">Marca</option>
+          <option value="nombre">Nombre</option>
+        </select>
+        <input type="text" id="valor" placeholder="Ingrese el valor a buscar">
+      </div>
+      <button id="buscar">Buscar</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Código</th>
+          <th>Marca</th>
+          <th>Nombre</th>
+          <th>Cantidad</th>
+          <th>Precio</th>
+          <th>IGV</th>
+          <th>Categoria</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="tablaProductos">
+      
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    // Función para cargar productos
+    function cargarProductos(tipo = "todos", valor = "") {
+      fetch(`/producto/buscar?tipo=${tipo}&valor=${valor}`)
+        .then((response) => response.json())
+        .then((data) => {
+          const tabla = document.getElementById("tablaProductos");
+          tabla.innerHTML = data
+            .map(
+              (producto) => `
+                <tr>
+                  <td>${producto.id_producto}</td>
+                  <td>${producto.codigo}</td>
+                  <td>${producto.marca}</td>
+                  <td>${producto.nombre}</td>
+                  <td>${producto.cantidad}</td>
+                  <td>${producto.precio}</td>
+                  <td>${producto.igv}</td>
+                  <td>
+                    <button onclick="editarProducto(${producto.id_producto})">Editar</button>
+                    <button onclick="eliminarProducto(${producto.id_producto})">Eliminar</button>
+                  </td>
+                </tr>
+              `
+            )
+            .join("");
+        })
+        .catch((error) => console.error("Error cargando los productos:", error));
+    }
+
+    // Cargar todos los productos al cargar la página
+    window.onload = () => {
+      cargarProductos(); // Inicialmente carga todos los productos
+      bloquearBusqueda(); // Bloquea el cuadro de búsqueda si "Todos" está seleccionado
+    };
+
+    // Función para buscar productos
+    document.getElementById("buscar").addEventListener("click", function () {
+      const tipo = document.getElementById("filtro").value;
+      const valor = document.getElementById("valor").value;
+      cargarProductos(tipo, valor);
+    });
+
+    // Bloquear o habilitar el cuadro de búsqueda según la opción seleccionada
+    document.getElementById("filtro").addEventListener("change", function () {
+      bloquearBusqueda(); // Llama a la función para bloquear o habilitar el cuadro de búsqueda
+    });
+
+    function bloquearBusqueda() {
+      const filtroSeleccionado = document.getElementById("filtro").value;
+      const inputBusqueda = document.getElementById("valor");
+
+      if (filtroSeleccionado === "todos") {
+        inputBusqueda.disabled = true; // Deshabilitar el campo de búsqueda
+        inputBusqueda.value = ""; // Limpiar el campo de búsqueda
+      } else {
+        inputBusqueda.disabled = false; // Habilitar el campo de búsqueda
+      }
+    }
+
+    // Función para eliminar un producto
+    function eliminarProducto(id) {
+      fetch(`/producto/eliminar/${id}`, { method: "DELETE" })
+        .then((response) => response.text())
+        .then((data) => {
+          alert(data);
+          cargarProductos(); // Recargar la lista de productos
+        })
+        .catch((error) => console.error("Error eliminando el producto:", error));
+    }
+
+    // Función para editar un producto (redirección a NuevoProducto.html)
+    function editarProducto(id) {
+      window.location.href = `/producto/editar/${id}`;
+    }
+  </script>
+</body>
+</html>

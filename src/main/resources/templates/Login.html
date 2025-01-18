@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        .login-container h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .login-container button:hover {
+            background-color: #0056b3;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Iniciar Sesión</h2>
+        <form id="login-form">
+            <div class="form-group">
+                <label for="usuario">Usuario</label>
+                <input type="text" id="usuario" name="usuario" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            
+            <!-- Casilla para ver/ocultar la contraseña -->
+            <div class="show-password">
+                <input type="checkbox" id="show-password">
+                <label for="show-password">Mostrar Contraseña</label>
+            </div>
+            
+            <button type="submit">Ingresar</button>
+        </form>
+        <div class="error-message" id="error-message"></div>
+    </div>
+
+    <script>
+        // Referencia al formulario y mensaje de error
+        const loginForm = document.getElementById("login-form");
+        const errorMessage = document.getElementById("error-message");
+        
+     // Función para alternar la visibilidad de la contraseña
+        document.getElementById("show-password").addEventListener("change", function() {
+            const passwordField = document.getElementById("password");
+            if (this.checked) {
+                passwordField.type = "text";  // Mostrar la contraseña
+            } else {
+                passwordField.type = "password";  // Ocultar la contraseña
+            }
+        });
+
+        // Escuchar el evento de envío del formulario
+        loginForm.addEventListener("submit", async (event) => {
+            event.preventDefault(); // Evitar el envío tradicional del formulario
+
+            // Obtener los valores de los campos
+            const usuario = document.getElementById("usuario").value;
+            const password = document.getElementById("password").value;
+
+            try {
+                // Enviar la solicitud al backend
+                const response = await fetch("/login/validate", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ usuario, password }),
+                });
+
+                const result = await response.text();
+
+                if (result === "SUCCESS") {
+                    // Redirigir al menú principal si las credenciales son válidas
+                    window.location.href = "/menuPrincipal";
+                } else {
+                    // Mostrar el mensaje de error si las credenciales son inválidas
+                    errorMessage.textContent = "Usuario o contraseña incorrectos.";
+                }
+            } catch (error) {
+                // Manejo de errores de red u otros problemas
+                console.error("Error al conectar con el servidor:", error);
+                errorMessage.textContent = "Error al conectar con el servidor. Intente nuevamente.";
+            }
+        });
+    </script>
+</body>
+</html>

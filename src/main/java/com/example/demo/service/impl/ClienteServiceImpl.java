@@ -32,4 +32,18 @@ public class ClienteServiceImpl implements ClienteService{
 	public Cliente getClienteById(int id) {
 		return clienteRepository.findById(id).orElse(null);
 	}
+	
+	@Override
+    public List<Cliente> buscarPorFiltro(String tipo, String valor) {
+        switch (tipo) {
+            case "tipoDocumento":
+                return clienteRepository.findByTipoDocumentoContaining(valor);
+            case "dniRuc":
+                return clienteRepository.findByDniRucContaining(valor);
+            case "nombre":
+                return clienteRepository.findByNombreContaining(valor);
+            default:
+                return listAllCliente();
+        }
+    }
 }

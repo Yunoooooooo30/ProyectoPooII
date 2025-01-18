@@ -32,4 +32,14 @@ public class CategoriaServiceImpl implements CategoriaService{
     public Categoria getCategoriaById(int id) {
         return categoriaRepository.findById(id).orElse(null);
     }
+    
+    @Override
+    public List<Categoria> buscarPorFiltro(String tipo, String valor) {
+        switch (tipo) {
+            case "descripcion":
+                return categoriaRepository.findByDescripcionContaining(valor);
+            default:
+                return listAllCategoria();
+        }
+    }
 }

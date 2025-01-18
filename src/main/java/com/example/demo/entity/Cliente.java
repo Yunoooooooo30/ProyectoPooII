@@ -13,11 +13,11 @@ public class Cliente {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id_cliente")
-	private int id_cliente;
-	@Column(name="dni_ruc")
-    private String dni_ruc;
+	private int idCliente;
 	@Column(name="tipo_documento")
-    private String tipo_documento;
+    private String tipoDocumento;
+	@Column(name="dni_ruc")
+    private String dniRuc;
 	@Column(name="nombre")
     private String nombre;
 	@Column(name="celular")
@@ -25,41 +25,56 @@ public class Cliente {
 	@Column(name="direccion")
     private String direccion;
 	@Column(name="estado")
-    private int estado;
+    private int estado = 1;
 
     public Cliente(){
     }
 
-    public Cliente(int id_cliente, String dni_ruc, String tipo_documento, String nombre, String celular, String direccion, int estado){
-        super();
-    	this.id_cliente = id_cliente;
-        this.dni_ruc = dni_ruc;
-        this.tipo_documento = tipo_documento;
-        this.nombre = nombre;
-        this.celular = celular;
-        this.direccion = direccion;
-        this.estado = estado;
-    }
+    
+    public Cliente(int idCliente, String tipoDocumento, String dniRuc, String nombre, String celular, String direccion,
+			int estado) {
+    	super();
+		this.idCliente = idCliente;
+		this.tipoDocumento = tipoDocumento;
+		this.dniRuc = dniRuc;
+		this.nombre = nombre;
+		this.celular = celular;
+		this.direccion = direccion;
+		this.estado = estado;
+	}
 
-    public int getId_cliente(){
-        return id_cliente;
-    }
-    public void setId_cliente(int id_cliente){
-        this.id_cliente = id_cliente;
-    }
-    public String getDni_ruc(){
-        return dni_ruc;
-    }
-    public void setDni_ruc(String dni_ruc){
-        this.dni_ruc = dni_ruc;
-    }
-    public String getTipo_documento(){
-        return tipo_documento;
-    }
-    public void setTipo_documento(String tipo_documento){
-        this.tipo_documento = tipo_documento;
-    }
-    public String getNombre(){
+
+	public int getIdCliente() {
+		return idCliente;
+	}
+
+
+	public void setIdCliente(int idCliente) {
+		this.idCliente = idCliente;
+	}
+
+
+	public String getTipoDocumento() {
+		return tipoDocumento;
+	}
+
+
+	public void setTipoDocumento(String tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
+	}
+
+
+	public String getDniRuc() {
+		return dniRuc;
+	}
+
+
+	public void setDniRuc(String dniRuc) {
+		this.dniRuc = dniRuc;
+	}
+
+
+	public String getNombre(){
         return nombre;
     }
     public void setNombre(String nombre){

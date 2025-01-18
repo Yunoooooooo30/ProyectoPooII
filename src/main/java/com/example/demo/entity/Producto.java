@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+	package com.example.demo.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,8 +14,8 @@ public class Producto {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id_producto")
 	private int id_producto;
-	@Column(name="codigo_producto")
-    private String codigo_producto;
+	@Column(name="codigo")
+    private String codigo;
 	@Column(name="marca")
     private String marca;
 	@Column(name="nombre")
@@ -33,14 +33,14 @@ public class Producto {
 	@Column(name="categoriaDescripcion")
     private String categoriaDescripcion;
 	@Column(name="estado")
-    private int estado;
+    private int estado = 1;
 
     public Producto(){
     }
-    public Producto(int id_producto, String codigo_producto, String marca, String nombre, int cantidad, double precio, String descripcion, int igv, int id_categoria, String categoriaDescripcion, int estado){
+    public Producto(int id_producto, String codigo, String marca, String nombre, int cantidad, double precio, String descripcion, int igv, int id_categoria, String categoriaDescripcion, int estado){
         super();
     	this.id_producto = id_producto;
-        this.codigo_producto = codigo_producto;
+        this.codigo = codigo;
         this.marca = marca;
         this.nombre = nombre;
         this.cantidad = cantidad;
@@ -57,11 +57,11 @@ public class Producto {
     public void setId_producto(int id_producto){
         this.id_producto = id_producto;
     }
-    public String getCodigo_producto() {
-        return codigo_producto;
+    public String getCodigo() {
+        return codigo;
     }
-    public void setCodigo_producto(String codigo_producto) {
-        this.codigo_producto = codigo_producto;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
     public String getMarca(){
         return marca;

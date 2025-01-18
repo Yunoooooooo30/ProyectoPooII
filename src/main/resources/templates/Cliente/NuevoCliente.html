@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Nuevo Cliente</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="card shadow-lg">
+            <div class="card-header bg-primary text-white text-center">
+                <h3>Registrar Nuevo Cliente</h3>
+            </div>
+            <div class="card-body">
+                <form id="formNuevoCliente" method="post" action="/cliente/guardar">
+                    <!-- DNI o RUC -->
+                    <div class="mb-3">
+                        <label for="tipo_documento" class="form-label">Tipo de Documento:</label>
+                        <select id="tipo_documento" name="tipo_documento" class="form-select" required>
+                            <option value="">Seleccione...</option>
+                            <option value="DNI">DNI</option>
+                            <option value="RUC">RUC</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="dni_ruc" class="form-label">Número de Documento:</label>
+                        <input type="text" id="dni_ruc" name="dni_ruc" class="form-control" placeholder="Ingrese el número de documento" required>
+                    </div>
+
+                    <!-- Nombre -->
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre:</label>
+                        <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Ingrese el nombre completo" required>
+                    </div>
+
+                    <!-- Celular -->
+                    <div class="mb-3">
+                        <label for="celular" class="form-label">Celular:</label>
+                        <input type="text" id="celular" name="celular" class="form-control" placeholder="Ingrese el número de celular" required>
+                    </div>
+
+                    <!-- Dirección -->
+                    <div class="mb-3">
+                        <label for="direccion" class="form-label">Dirección:</label>
+                        <input type="text" id="direccion" name="direccion" class="form-control" placeholder="Ingrese la dirección" required>
+                    </div>
+
+                    <!-- Botones -->
+                    <div class="d-flex justify-content-between">
+                        <button type="submit" class="btn btn-primary">Guardar Cliente</button>
+                        <a href="/cliente/gestionar" class="btn btn-secondary">Cancelar</a>
+                        <a href="/menuPrincipal" class="btn btn-success">Menú Principal</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

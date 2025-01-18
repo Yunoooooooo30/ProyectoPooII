@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nueva Categoría</title>
+<style>
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f4f4f4;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	margin: 0;
+}
+
+.form-container {
+	background-color: white;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+	width: 400px;
+}
+
+.form-container h2 {
+	text-align: center;
+	color: #5a5a5a;
+	margin-bottom: 20px;
+}
+
+.form-group {
+	margin-bottom: 15px;
+}
+
+.form-group label {
+	display: block;
+	margin-bottom: 5px;
+	color: #5a5a5a;
+}
+
+.form-group input {
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	background-color: #fef9e5;
+}
+
+.form-group button {
+	width: 100%;
+	padding: 10px;
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	border-radius: 8px; /* Bordes redondeados */
+	cursor: pointer;
+	font-weight: bold;
+	margin-top: 10px;
+	transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group button:hover {
+	background-color: #45a049;
+	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.button-container {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 20px;
+}
+
+.button-container button {
+	width: 48%;
+	background-color: #b0bec5; /* Color gris claro */
+	color: white;
+	font-size: 16px;
+	border: none;
+	border-radius: 8px; /* Bordes redondeados */
+	padding: 10px;
+	transition: background-color 0.3s ease, box-shadow 0.3s ease;
+	cursor: pointer;
+}
+
+.button-container button:hover {
+	background-color: #90a4ae; /* Gris más oscuro */
+	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.error-message {
+	color: red;
+	font-size: 14px;
+	text-align: center;
+	margin-top: 10px;
+}
+</style>
+</head>
+<body>
+	<div class="form-container">
+
+		<h2>Crear Nueva Categoría</h2>
+		<form id="nueva-categoria-form">
+			<div class="form-group">
+				<label for="descripcion">Descripción</label> 
+				<input type="text" id="descripcion" name="descripcion" required>
+			</div>
+
+			<div class="form-group">
+				<button type="submit">Crear Categoría</button>
+			</div>
+
+			<div class="button-container">
+				<button type="button" onclick="location.href='/menuPrincipal'">Volver al Menú Principal</button>
+				<button type="button" onclick="location.href='/categoria/gestionar'">Volver a Gestión de Categorías</button>
+			</div>
+		</form>
+		<div class="error-message" id="error-message"></div>
+
+	</div>
+
+	<script>
+    // Referencia al formulario y mensaje de error
+    const form = document.getElementById("nueva-categoria-form");
+    const errorMessage = document.getElementById("error-message");
+
+    // Escuchar el evento de envío del formulario
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault(); // Evitar el envío tradicional del formulario
+
+        const descripcion = document.getElementById("descripcion").value;
+
+        try {
+            // Enviar la solicitud al backend para crear una nueva categoría
+            const response = await fetch("/categoria/guardar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json", // Especificamos que los datos se envían en formato JSON
+                },
+                body: JSON.stringify({
+                    descripcion: descripcion,
+                    estado: 1 // Se establece estado en 1 por defecto
+                }),
+            });
+
+            const result = await response.text();
+
+            if (result === "Categoria guardada correctamente") {
+                // Si la creación es exitosa, redirigir o mostrar un mensaje de éxito
+                window.location.href = "/categoria/gestionar"; // Redirigir a la gestión de categorías
+            } else {
+                errorMessage.textContent = "Hubo un error al crear la categoría.";
+            }
+        } catch (error) {
+            // Manejo de errores de red u otros problemas
+            console.error("Error al conectar con el servidor:", error);
+            errorMessage.textContent = "Error al conectar con el servidor. Intente nuevamente.";
+        }
+    });
+</script>
+</body>
+</html>

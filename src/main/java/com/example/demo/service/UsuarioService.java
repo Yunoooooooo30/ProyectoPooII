@@ -5,8 +5,10 @@ import java.util.List;
 import com.example.demo.entity.Usuario;
 
 public interface UsuarioService {
-	public abstract List<Usuario> listAllUsuario();
+	List<Usuario> listAllUsuario();
 	Usuario addUsuario(Usuario usuario);
     void deleteUsuario(int id);
-    Usuario getUsuarioById(int id);	
+    Usuario getUsuarioById(int id);
+    List<Usuario> buscarPorFiltro(String tipo, String valor);
+    Usuario findByUsernameAndPassword(String username, String password);
 }

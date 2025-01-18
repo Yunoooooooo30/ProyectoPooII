@@ -25,7 +25,7 @@ public class Usuario {
 	@Column(name = "celular")
 	private String celular;
 	@Column(name = "estado")
-	private int estado;
+	private int estado = 1;
 
 	public Usuario() {
 	}

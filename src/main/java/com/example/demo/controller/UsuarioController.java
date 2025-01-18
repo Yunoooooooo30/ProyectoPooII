@@ -1,51 +1,84 @@
 package com.example.demo.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.demo.entity.Producto;
 import com.example.demo.entity.Usuario;
 import com.example.demo.service.UsuarioService;
 
 @Controller
 @RequestMapping("/usuario")
 public class UsuarioController {
+
 	@Autowired
 	@Qualifier("usuarioservice")
 	private UsuarioService usuarioService;
-	
-	@GetMapping("/lista")
-	public ModelAndView listAllUsers() {
-		
-		ModelAndView mav = new ModelAndView("lista");
-		mav.addObject("usuarios", usuarioService.listAllUsuario());
+
+	@GetMapping("/listaUsuario")
+	public ModelAndView listAllUsuarios() {
+		ModelAndView mav = new ModelAndView("listaUsuario");
+		List<Usuario> usuarios = usuarioService.listAllUsuario();
+		if (usuarios == null || usuarios.isEmpty()) {
+			System.out.println("No se encontraron usuarios en la base de datos.");
+		}
+		mav.addObject("usuarios", usuarios);
 		return mav;
 	}
-	
-	@PostMapping("/agregar")
-    public String addUser(@ModelAttribute Usuario usuario) {
+
+	@GetMapping("/buscar")
+	@ResponseBody
+	public List<Usuario> buscarUsuario(@RequestParam("tipo") String tipo, @RequestParam("valor") String valor) {
+		if (tipo.equals("todos")) {
+			return usuarioService.listAllUsuario();
+		} else {
+			return usuarioService.buscarPorFiltro(tipo, valor);
+		}
+	}
+
+    @PostMapping("/guardar")
+    @ResponseBody
+    public String addUsuario(@RequestBody Usuario usuario) {
         usuarioService.addUsuario(usuario);
-        return "redirect:/usuario/lista";
+        return "Usuario guardado correctamente";
     }
-
-    @GetMapping("/eliminar/{id}")
-    public String deleteUser(@PathVariable("id") int id) {
-        usuarioService.deleteUsuario(id);
-        return "redirect:/usuario/lista";
-    }
-
+    
     @GetMapping("/editar/{id}")
-    public String editUser(@PathVariable("id") int id, Model model) {
-        Usuario usuario = usuarioService.getUsuarioById(id);
-        model.addAttribute("usuario", usuario);
-        model.addAttribute("usuarios", usuarioService.listAllUsuario());
-        return "lista";
+    @ResponseBody
+    public Usuario getUsuario(@PathVariable("id") int id) {
+        return usuarioService.getUsuarioById(id);
+    }
+
+	@GetMapping("/eliminar/{id}")
+	public String deleteUsuario(@PathVariable("id") int id) {
+		usuarioService.deleteUsuario(id);
+		return "Usuario eliminado correctamente";
+	}
+	
+	@GetMapping("/nuevo")
+    public String nuevoUsuario() {
+        return "Usuario/NuevoUsuario";
+    }
+
+    @GetMapping("/gestionar")
+    public String gestionarUsuario() {
+        return "Usuario/GestionUsuario";
     }
 }
