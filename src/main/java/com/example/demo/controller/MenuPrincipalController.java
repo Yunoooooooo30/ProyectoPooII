@@ -8,7 +8,6 @@ public class MenuPrincipalController {
 
     @GetMapping("/menuPrincipal")
     public String showMenu() {
-        return "MenuPrincipal"; // templates/MenuPrincipal.html
+        return "MenuPrincipal";
     }
 }
-	

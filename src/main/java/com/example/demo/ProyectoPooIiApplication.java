@@ -13,5 +13,4 @@ public class ProyectoPooIiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ProyectoPooIiApplication.class, args);
 	}
-
 }

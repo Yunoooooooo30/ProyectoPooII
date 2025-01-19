@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.example.demo.entity.Categoria;
 import com.example.demo.service.CategoriaService;
 
@@ -35,8 +33,7 @@ public class CategoriaController {
         mav.addObject("categorias", categorias);
         return mav;
     }
-    
- // Buscar categoria según filtro
+
     @GetMapping("/buscar")
     @ResponseBody
     public List<Categoria> buscarCategoria(@RequestParam("tipo") String tipo, @RequestParam("valor") String valor) {
@@ -54,14 +51,12 @@ public class CategoriaController {
         return "Categoria guardada correctamente";
     }
     
- // Obtener una Categoria por su ID (para edición)
     @GetMapping("/editar/{id}")
     @ResponseBody
     public Categoria getCategoria(@PathVariable("id") int id) {
         return categoriaService.getCategoriaById(id);
     }
 
-    // Eliminar una categoria
     @DeleteMapping("/eliminar/{id}")
     @ResponseBody
     public String deleteCategoria(@PathVariable("id") int id) {
