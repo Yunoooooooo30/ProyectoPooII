@@ -25,15 +25,15 @@ DROP TABLE IF EXISTS `cabecera_venta`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `cabecera_venta` (
-  `id_cabecera_venta` int NOT NULL AUTO_INCREMENT,
-  `id_cliente` int DEFAULT NULL,
-  `valor_pagar` double(10,2) DEFAULT NULL,
-  `fecha_venta` date DEFAULT NULL,
-  `estado` int DEFAULT NULL,
-  PRIMARY KEY (`id_cabecera_venta`),
+  `id_cabecera` int NOT NULL AUTO_INCREMENT,
+  `id_cliente` int NOT NULL,
+  `valor_pagar` double NOT NULL,
+  `fecha_venta` datetime(6) DEFAULT NULL,
+  `estado` int NOT NULL,
+  PRIMARY KEY (`id_cabecera`),
   KEY `id_cliente` (`id_cliente`),
   CONSTRAINT `cabecera_venta_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -54,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-16 23:28:42
+-- Dump completed on 2025-01-20 20:30:37

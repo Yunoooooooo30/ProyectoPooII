@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `cliente`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `cliente` (
-  `id_cliente` int NOT NULL AUTO_INCREMENT, 
+  `id_cliente` int NOT NULL AUTO_INCREMENT,
   `tipo_documento` varchar(255) DEFAULT NULL,
   `dni_ruc` varchar(255) DEFAULT NULL,
   `nombre` varchar(255) DEFAULT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE `cliente` (
   `direccion` varchar(255) DEFAULT NULL,
   `estado` int DEFAULT NULL,
   PRIMARY KEY (`id_cliente`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `cliente` (
 
 LOCK TABLES `cliente` WRITE;
 /*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
-INSERT INTO `cliente` VALUES (1,'DNI','73200713','Sergio Junior Quispe Castro','907218182','Av. Aviación Mz. B Lt. 10',0),(2,'DNI','20071004','Richard Quispe Espinoza','959746341','Av. Aviacion Mz. B Lt. 10',1);
+INSERT INTO `cliente` VALUES (1,'DNI','73200713','Sergio Junior Quispe Castro','907218182','Av. Aviación Mz. B Lt. 10',0),(4,'RUC','1234567 ','Ricardo Angelo','907218182','Masisea',1),(8,'DNI','20071004','Richard Quispe Espinoza','959746341','Av. Yarina',1);
 /*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-16 23:28:42
+-- Dump completed on 2025-01-20 20:30:37

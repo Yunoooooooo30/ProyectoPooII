@@ -25,22 +25,21 @@ DROP TABLE IF EXISTS `detalle_venta`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `detalle_venta` (
-  `id_detalle_venta` int NOT NULL AUTO_INCREMENT,
-  `id_cabecera_venta` int DEFAULT NULL,
-  `id_producto` int DEFAULT NULL,
-  `cantidad` int DEFAULT NULL,
-  `precio_unitario` double(10,2) DEFAULT NULL,
-  `subtotal` double(10,2) DEFAULT NULL,
-  `descuento` double(10,2) DEFAULT NULL,
-  `igv` double(10,2) DEFAULT NULL,
-  `total_pagar` double(10,2) DEFAULT NULL,
-  `estado` int DEFAULT NULL,
-  PRIMARY KEY (`id_detalle_venta`),
-  KEY `id_cabecera_venta` (`id_cabecera_venta`),
+  `id_venta` int NOT NULL AUTO_INCREMENT,
+  `id_cabecera` int NOT NULL,
+  `id_producto` int NOT NULL,
+  `cantidad` int NOT NULL,
+  `precio_unitario` double NOT NULL,
+  `descuento` double NOT NULL,
+  `igv` double NOT NULL,
+  `total_pagar` int DEFAULT NULL,
+  `estado` int NOT NULL,
+  PRIMARY KEY (`id_venta`),
+  KEY `id_cabecera` (`id_cabecera`),
   KEY `id_producto` (`id_producto`),
-  CONSTRAINT `detalle_venta_ibfk_1` FOREIGN KEY (`id_cabecera_venta`) REFERENCES `cabecera_venta` (`id_cabecera_venta`),
+  CONSTRAINT `detalle_venta_ibfk_1` FOREIGN KEY (`id_cabecera`) REFERENCES `cabecera_venta` (`id_cabecera`),
   CONSTRAINT `detalle_venta_ibfk_2` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`id_producto`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -61,4 +60,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-01-16 23:28:42
+-- Dump completed on 2025-01-20 20:30:38
