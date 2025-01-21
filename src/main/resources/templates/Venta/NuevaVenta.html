@@ -175,7 +175,6 @@
         }
 
 
-
         // Añadir producto a la tabla
         $('#btnAñadirProducto').click(function () {
             const productoId = $('#producto').val();
@@ -233,11 +232,16 @@
             $('#totalPagar').text(totalPagar.toFixed(2));
         }
 
-     // Registrar venta
         $('#btnRegistrarVenta').click(function () {
-            const clienteId = $('#cliente').val();
-            const productos = [];
+            const clienteId = $('#cliente').val(); // Obtiene el id_cliente seleccionado en el combo box
 
+            if (!clienteId) {
+                alert('Por favor, seleccione un cliente.');
+                return;
+            }
+
+            // Aquí es donde debes enviar el clienteId junto con los productos seleccionados
+            const productos = [];
             $('#tablaProductos tr').each(function () {
                 const producto = {
                     nombre: $(this).find('td').eq(1).text(),
@@ -251,7 +255,7 @@
             });
 
             const venta = {
-                clienteId,
+                clienteId, // Se pasa el clienteId correctamente
                 productos,
                 totalPagar: parseFloat($('#totalPagar').text())
             };
@@ -260,6 +264,7 @@
                 .then(response => alert('Venta registrada correctamente'))
                 .catch(error => alert('Error al registrar la venta'));
         });
+
 
     </script>
 </body>
