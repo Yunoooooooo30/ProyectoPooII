@@ -9,4 +9,5 @@ import com.example.demo.entity.Categoria;
 @Repository("categoriarepository")
 public interface CategoriaRepository extends JpaRepository<Categoria, Serializable>{
 	List<Categoria> findByDescripcionContaining(String descripcion);
+	
 }

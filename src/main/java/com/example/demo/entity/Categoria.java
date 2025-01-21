@@ -18,6 +18,7 @@ public class Categoria {
 	private String descripcion;
 	@Column(name = "estado")
 	private int estado = 1;
+	
 
 	public Categoria() {
 	}

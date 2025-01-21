@@ -1,10 +1,202 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Personalización adicional si es necesario */
+        .search-container {
+            margin-bottom: 20px;
+        }
+        .button-container {
+            margin-bottom: 20px;
+        }
+        table th, table td {
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
+    <div class="container mt-4">
+        <h1 class="text-center">Gestión de Usuarios</h1>
 
+        <div class="button-container text-center mb-4">
+            <button class="btn btn-secondary" onclick="location.href='/menuPrincipal'">Volver al Menú Principal</button>
+            <button class="btn btn-primary" onclick="location.href='/usuario/nuevo'">Nuevo Usuario</button>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2>Editar Usuario</h2>
+            </div>
+            <div class="card-body">
+                <form id="formEditarUsuario">
+                    <div class="mb-3">
+                        <label for="id_usuario" class="form-label">ID:</label>
+                        <input type="text" id="id_usuario" name="id_usuario" class="form-control" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre:</label>
+                        <input type="text" id="nombre" name="nombre" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="apellido" class="form-label">Apellido:</label>
+                        <input type="text" id="apellido" name="apellido" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="usuario" class="form-label">Usuario:</label>
+                        <input type="text" id="usuario" name="usuario" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="celular" class="form-label">Celular:</label>
+                        <input type="text" id="celular" name="celular" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña:</label>
+                        <input type="password" id="password" name="password" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                    <button type="button" id="btnEliminar" class="btn btn-danger ms-2">Eliminar</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="search-container mt-4">
+            <h3>Buscar Usuarios</h3>
+            <div class="d-flex mb-3">
+                <select id="filtro" class="form-select w-auto me-2">
+                    <option value="todos">Todos</option>
+                    <option value="nombre">Nombre</option>
+                    <option value="apellido">Apellido</option>
+                    <option value="usuario">Usuario</option>
+                </select>
+                <input type="text" id="valor" class="form-control w-auto me-2" placeholder="Ingrese el valor a buscar">
+                <button id="buscar" class="btn btn-primary">Buscar</button>
+            </div>
+        </div>
+
+        <table class="table table-bordered table-striped mt-4">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Usuario</th>
+                    <th>Celular</th>
+                    <th>Contraseña</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody id="tablaUsuarios"></tbody>
+        </table>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Función para cargar usuarios
+        function cargarUsuarios(tipo = "todos", valor = "") {
+            fetch(`/usuario/buscar?tipo=${tipo}&valor=${valor || ''}`)
+                .then((response) => response.json())
+                .then((data) => {
+                    const tabla = document.getElementById("tablaUsuarios");
+                    if (data.length === 0) {
+                        tabla.innerHTML = "<tr><td colspan='7' class='text-center'>No hay usuarios disponibles</td></tr>";
+                    } else {
+                        tabla.innerHTML = data
+                            .map(
+                                (usuario) => ` 
+                                <tr>
+                                    <td>${usuario.id_usuario}</td>
+                                    <td>${usuario.nombre}</td>
+                                    <td>${usuario.apellido}</td>
+                                    <td>${usuario.usuario}</td>
+                                    <td>${usuario.celular}</td>
+                                    <td>${usuario.password}</td>
+                                    <td>
+                                        <button class="btn btn-info btn-sm" onclick="seleccionarUsuario(${usuario.id_usuario})">Seleccionar</button>
+                                    </td>
+                                </tr>`
+                            )
+                            .join("");
+                    }
+                })
+                .catch((error) => console.error("Error al cargar los usuarios:", error));
+        }
+
+        // Función de seleccionar usuario
+        function seleccionarUsuario(id) {
+            fetch(`/usuario/editar/${id}`)
+                .then(response => response.json())
+                .then(usuario => {
+                    document.getElementById("id_usuario").value = usuario.id_usuario;
+                    document.getElementById("nombre").value = usuario.nombre;
+                    document.getElementById("apellido").value = usuario.apellido;
+                    document.getElementById("usuario").value = usuario.usuario;
+                    document.getElementById("celular").value = usuario.celular;
+                    document.getElementById("password").value = usuario.password;
+                })
+                .catch(error => console.error("Error al seleccionar el usuario:", error));
+        }
+
+        // Función para guardar cambios
+        document.getElementById("formEditarUsuario").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const id = document.getElementById("id_usuario").value;
+            const nombre = document.getElementById("nombre").value;
+            const apellido = document.getElementById("apellido").value;
+            const usuario = document.getElementById("usuario").value;
+            const celular = document.getElementById("celular").value;
+            const password = document.getElementById("password").value;
+
+            fetch(`/usuario/guardar`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id_usuario: id, nombre, apellido, usuario, celular, password })
+            })
+                .then(response => response.text())
+                .then(data => {
+                    alert(data);
+                    cargarUsuarios();
+                })
+                .catch(error => console.error("Error al guardar cambios:", error));
+        });
+
+        // Eliminar usuario
+        document.getElementById("btnEliminar").addEventListener("click", function() {
+            const id = document.getElementById("id_usuario").value;
+
+            if (!id) {
+                alert("Seleccione un usuario primero.");
+                return;
+            }
+
+            if (confirm("¿Está seguro de que desea eliminar este usuario?")) {
+                fetch(`/usuario/eliminar/${id}`, { method: "DELETE" })
+                    .then(response => response.text())
+                    .then(data => {
+                        alert(data);
+                        cargarUsuarios();
+                    })
+                    .catch(error => console.error("Error al eliminar el usuario:", error));
+            }
+        });
+
+        // Buscar usuarios
+        document.getElementById("buscar").addEventListener("click", function() {
+            const tipo = document.getElementById("filtro").value;
+            const valor = document.getElementById("valor").value;
+            cargarUsuarios(tipo, valor);
+        });
+
+        // Inicializar
+        window.onload = () => {
+            cargarUsuarios();
+        }
+    </script>
 </body>
 </html>

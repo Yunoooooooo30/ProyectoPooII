@@ -1,6 +1,8 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.Producto;
+import com.example.demo.entity.ProductoTemporal;
+import com.example.demo.repository.CategoriaRepository;
 import com.example.demo.repository.ProductoRepository;
 import com.example.demo.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,10 @@ public class ProductoServiceImpl implements ProductoService {
     @Autowired
     @Qualifier("productorepository")
     private ProductoRepository productoRepository;
+    
+    @Autowired
+    @Qualifier("categoriarepository")
+    private CategoriaRepository categoriaRepository;
 
     @Override
     public List<Producto> listAllProducto() {
@@ -48,4 +54,9 @@ public class ProductoServiceImpl implements ProductoService {
                 return listAllProducto();
         }
     }
+    
+    @Override
+	public List<ProductoTemporal> listAllProductoWithCategoria() {
+		return productoRepository.findAllProductosWithCategoria();
+	}
 }

@@ -43,37 +43,24 @@ public class Cliente {
 		this.estado = estado;
 	}
 
-
 	public int getIdCliente() {
 		return idCliente;
 	}
-
-
 	public void setIdCliente(int idCliente) {
 		this.idCliente = idCliente;
 	}
-
-
 	public String getTipoDocumento() {
 		return tipoDocumento;
 	}
-
-
 	public void setTipoDocumento(String tipoDocumento) {
 		this.tipoDocumento = tipoDocumento;
 	}
-
-
 	public String getDniRuc() {
 		return dniRuc;
 	}
-
-
 	public void setDniRuc(String dniRuc) {
 		this.dniRuc = dniRuc;
 	}
-
-
 	public String getNombre(){
         return nombre;
     }

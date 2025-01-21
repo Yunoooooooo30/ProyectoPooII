@@ -1,98 +1,120 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agregar Nuevo Producto</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agregar Nuevo Producto</title>
+<!-- Bootstrap CSS -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
 </head>
 <body class="bg-light">
-    <div class="container mt-5">
-        <div class="card shadow-lg">
-            <div class="card-header bg-primary text-white text-center">
-                <h3>Agregar Nuevo Producto</h3>
-            </div>
-            <div class="card-body">
-                <form id="formNuevoProducto">
-                    <div class="mb-3">
-                        <label for="codigo" class="form-label">Código del Producto:</label>
-                        <input type="text" id="codigo" name="codigo" class="form-control" placeholder="Ingrese el código del producto" required>
-                    </div>
+	<div class="container mt-5">
+		<div class="card shadow-lg">
+			<div class="card-header bg-primary text-white text-center">
+				<h3>Agregar Nuevo Producto</h3>
+			</div>
+			<div class="card-body">
+				<form id="formNuevoProducto">
+					<div class="mb-3">
+						<label for="codigo" class="form-label">Código del
+							Producto:</label> <input type="text" id="codigo" name="codigo"
+							class="form-control" placeholder="Ingrese el código del producto"
+							required>
+					</div>
 
-                    <div class="mb-3">
-                        <label for="marca" class="form-label">Marca:</label>
-                        <input type="text" id="marca" name="marca" class="form-control" placeholder="Ingrese la marca" required>
-                    </div>
+					<div class="mb-3">
+						<label for="marca" class="form-label">Marca:</label> <input
+							type="text" id="marca" name="marca" class="form-control"
+							placeholder="Ingrese la marca" required>
+					</div>
 
-                    <div class="mb-3">
-                        <label for="nombre" class="form-label">Nombre:</label>
-                        <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Ingrese el nombre del producto" required>
-                    </div>
+					<div class="mb-3">
+						<label for="nombre" class="form-label">Nombre:</label> <input
+							type="text" id="nombre" name="nombre" class="form-control"
+							placeholder="Ingrese el nombre del producto" required>
+					</div>
 
-                    <div class="mb-3">
-                        <label for="cantidad" class="form-label">Cantidad:</label>
-                        <input type="number" id="cantidad" name="cantidad" class="form-control" placeholder="Ingrese la cantidad" required>
-                    </div>
+					<div class="mb-3">
+						<label for="cantidad" class="form-label">Cantidad:</label> <input
+							type="number" id="cantidad" name="cantidad" class="form-control"
+							placeholder="Ingrese la cantidad" required>
+					</div>
 
-                    <div class="mb-3">
-                        <label for="precio" class="form-label">Precio:</label>
-                        <input type="number" step="0.01" id="precio" name="precio" class="form-control" placeholder="Ingrese el precio" required>
-                    </div>
+					<div class="mb-3">
+						<label for="precio" class="form-label">Precio:</label> <input
+							type="number" step="0.01" id="precio" name="precio"
+							class="form-control" placeholder="Ingrese el precio" required>
+					</div>
 
-                    <div class="mb-3">
-                        <label for="descripcion" class="form-label">Descripción:</label>
-                        <textarea id="descripcion" name="descripcion" class="form-control" rows="3" placeholder="Ingrese una descripción" required></textarea>
-                    </div>
+					<div class="mb-3">
+						<label for="descripcion" class="form-label">Descripción:</label>
+						<textarea id="descripcion" name="descripcion" class="form-control"
+							rows="3" placeholder="Ingrese una descripción" required></textarea>
+					</div>
 
-                    <div class="mb-3">
-                        <label for="igv" class="form-label">IGV:</label>
-                        <input type="number" id="igv" name="igv" class="form-control" placeholder="Ingrese el IGV" required>
-                    </div>
+					<div class="mb-3">
+						<label for="igv" class="form-label">IGV:</label> <input
+							type="number" id="igv" name="igv" class="form-control"
+							placeholder="Ingrese el IGV" required>
+					</div>
 
-                    <div class="mb-3">
-                        <label for="categoria" class="form-label">Categoría:</label>
-                        <input type="number" id="categoria" name="categoria" class="form-control" placeholder="Ingrese la categoría" required>
-                    </div>
+					<div class="mb-3">
+						<label for="categoria" class="form-label">Categoría:</label> <select
+							id="categoria" name="categoria" class="form-control" required>
+							<option value="" disabled selected>Seleccione una
+								categoría</option>
+							<!-- Aquí generas las opciones de las categorías disponibles -->
+							<th:block th:each="categoria : ${categorias}">
+								<option th:value="${categoria.id_categoria}"
+									th:text="${categoria.descripcion}"></option>
+							</th:block>
+						</select>
+					</div>
 
-                    <div class="d-flex justify-content-between">
-                        <button type="button" id="guardarProducto" class="btn btn-primary">Guardar Producto</button>
-                        <a href="/producto/gestionar" class="btn btn-secondary">Cancelar</a>
-                        <a href="/menuPrincipal" class="btn btn-success">Menú Principal</a>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+					<div class="d-flex justify-content-between">
+						<button type="button" id="guardarProducto" class="btn btn-primary">Guardar
+							Producto</button>
+						<a href="/producto/gestionar" class="btn btn-secondary">Cancelar</a>
+						<a href="/menuPrincipal" class="btn btn-success">Menú
+							Principal</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 
-    <!-- Bootstrap JS Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
+	<!-- Bootstrap JS Bundle with Popper -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script>
         document.getElementById("guardarProducto").addEventListener("click", function (e) {
             e.preventDefault();
 
             const producto = {
-                codigo_producto: document.getElementById("codigo").value,
-                marca: document.getElementById("marca").value,
-                nombre: document.getElementById("nombre").value,
-                cantidad: document.getElementById("cantidad").value,
-                precio: document.getElementById("precio").value,
-                descripcion: document.getElementById("descripcion").value,
-                igv: document.getElementById("igv").value,
-                id_categoria: document.getElementById("categoria").value,
-            };
+            	    codigo: document.getElementById("codigo").value,
+            	    marca: document.getElementById("marca").value,
+            	    nombre: document.getElementById("nombre").value,
+            	    cantidad: document.getElementById("cantidad").value,
+            	    precio: document.getElementById("precio").value,
+            	    descripcion: document.getElementById("descripcion").value,
+            	    igv: document.getElementById("igv").value,
+            	    id_categoria: parseInt(document.getElementById("categoria").value), // Asegúrate de que esto sea un entero
+            	};
+
 
             fetch("/producto/guardar", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(producto),
             })
-                .then((response) => response.text())
-                .then((data) => {
-                    alert(data);
-                    window.location.href = "/producto/gestionar"; // Redirige a gestionar productos
-                })
-                .catch((error) => console.error("Error:", error));
+            .then((response) => response.text())
+            .then((data) => {
+                alert(data);
+                window.location.href = "/producto/gestionar"; // Redirige a gestionar productos
+            })
+            .catch((error) => console.error("Error:", error));
         });
     </script>
 </body>

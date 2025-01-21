@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `cliente`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `cliente` (
-  `id_cliente` int NOT NULL AUTO_INCREMENT,
+  `id_cliente` int NOT NULL AUTO_INCREMENT, 
   `tipo_documento` varchar(255) DEFAULT NULL,
   `dni_ruc` varchar(255) DEFAULT NULL,
   `nombre` varchar(255) DEFAULT NULL,

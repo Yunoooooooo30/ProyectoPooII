@@ -1,4 +1,4 @@
-	package com.example.demo.entity;
+package com.example.demo.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,30 +28,30 @@ public class Producto {
     private String descripcion;
 	@Column(name="igv")
     private int igv;
-	@Column(name="id_categoria")
-    private int id_categoria;
-	@Column(name="categoriaDescripcion")
-    private String categoriaDescripcion;
+	// Asegúrate de tener el ID de la categoría como un entero
+    @Column(name = "id_categoria")
+    private int id_categoria; // Esto debe ser un entero
 	@Column(name="estado")
     private int estado = 1;
 
     public Producto(){
     }
-    public Producto(int id_producto, String codigo, String marca, String nombre, int cantidad, double precio, String descripcion, int igv, int id_categoria, String categoriaDescripcion, int estado){
-        super();
-    	this.id_producto = id_producto;
-        this.codigo = codigo;
-        this.marca = marca;
-        this.nombre = nombre;
-        this.cantidad = cantidad;
-        this.precio = precio;
-        this.descripcion = descripcion;
-        this.igv = igv;
-        this.id_categoria = id_categoria;
-        this.categoriaDescripcion = categoriaDescripcion;
-        this.estado = estado;
-    }
-    public int getId_producto(){
+   
+    public Producto(int id_producto, String codigo, String marca, String nombre, int cantidad, double precio,
+			String descripcion, int igv, int id_categoria, int estado) {
+		this.id_producto = id_producto;
+		this.codigo = codigo;
+		this.marca = marca;
+		this.nombre = nombre;
+		this.cantidad = cantidad;
+		this.precio = precio;
+		this.descripcion = descripcion;
+		this.igv = igv;
+		this.id_categoria = id_categoria;
+		this.estado = estado;
+	}
+
+	public int getId_producto(){
         return id_producto;
     }
     public void setId_producto(int id_producto){
@@ -99,19 +99,13 @@ public class Producto {
     public void setIgv(int igv){
         this.igv = igv;
     }
-    public int getId_categoria(){
-        return id_categoria;
-    }
-    public void setId_categoria(int id_categoria){
-        this.id_categoria = id_categoria;
-    }
-    public String getCategoriaDescripcion() {
-        return categoriaDescripcion;
-    }
-    public void setCategoriaDescripcion(String categoriaDescripcion) {
-        this.categoriaDescripcion = categoriaDescripcion;
-    }
-    public int getEstado(){
+	public int getId_categoria() {
+		return id_categoria;
+	}
+	public void setId_categoria(int id_categoria) {
+		this.id_categoria = id_categoria;
+	}
+	public int getEstado(){
         return estado;
     }
     public void setEstado(int estado){

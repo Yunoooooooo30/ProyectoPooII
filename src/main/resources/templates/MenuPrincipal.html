@@ -1,173 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menú Principal</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-        }
-
-        .navbar {
-            background-color: #4CAF50;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .navbar h1 {
-            color: white;
-            text-align: center;
-            margin: 0;
-            font-size: 2em;
-        }
-
-        .menu {
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            padding: 0;
-            margin: 20px 0 0 0;
-        }
-
-        .menu-item {
-            margin: 0 15px;
-            position: relative;
-        }
-
-        .menu-item > a {
-            text-decoration: none;
-            color: white;
-            font-size: 1.2em;
-            padding: 10px 15px;
-            display: block;
-            border-radius: 8px;
-            transition: background-color 0.3s ease;
-        }
-
-        .menu-item > a:hover {
-            background-color: #3e8e41;
-        }
-
-        .submenu {
-            display: none;
-            position: absolute;
-            top: 45px;
-            left: 0;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            list-style: none;
-            padding: 0;
-            min-width: 200px;
-        }
-
-        .submenu li a {
-            text-decoration: none;
-            color: #333;
-            font-size: 1em;
-            padding: 10px 15px;
-            display: block;
-            border-bottom: 1px solid #ddd;
-            transition: background-color 0.3s ease;
-        }
-
-        .submenu li a:last-child {
-            border-bottom: none;
-        }
-
-        .submenu li a:hover {
-            background-color: #f9f9f9;
-        }
-
-        .menu-item:hover .submenu {
-            display: block;
-        }
-
-        .menu-item:last-child > a {
-            background-color: #f44336;
-        }
-
-        .menu-item:last-child > a:hover {
-            background-color: #d32f2f;
-        }
-
-        /* Responsivo */
-        @media (max-width: 768px) {
-            .menu {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .menu-item {
-                margin: 10px 0;
-            }
-
-            .submenu {
-                position: static;
-                box-shadow: none;
-                background-color: #4CAF50;
-                padding: 5px;
-            }
-
-            .submenu li a {
-                color: white;
-            }
-
-            .submenu li a:hover {
-                background-color: #3e8e41;
-            }
-        }
-    </style>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <div class="navbar">
-        <h1>Sistema de Gestión de Inventario de Repuestos</h1>
-        <ul class="menu">
-            <li class="menu-item">
-                <a href="#">Producto</a>
-                <ul class="submenu">
-                    <li><a href="/producto/nuevo">Nuevo Producto</a></li>
-                    <li><a href="/producto/gestionar">Gestionar Producto</a></li>
-                </ul>
-            </li>
-            <li class="menu-item">
-                <a href="#">Cliente</a>
-                <ul class="submenu">
-                    <li><a href="/cliente/nuevo">Nuevo Cliente</a></li>
-                    <li><a href="/cliente/gestionar">Gestionar Cliente</a></li>
-                </ul>
-            </li>
-            <li class="menu-item">
-                <a href="#">Usuario</a>
-                <ul class="submenu">
-                    <li><a href="/usuario/nuevo">Nuevo Usuario</a></li>
-                    <li><a href="/usuario/gestionar">Gestionar Usuario</a></li>
-                </ul>
-            </li>
-            <li class="menu-item">
-                <a href="#">Categoría</a>
-                <ul class="submenu">
-                    <li><a href="/categoria/nuevo">Nueva Categoría</a></li>
-                    <li><a href="/categoria/gestionar">Gestionar Categoría</a></li>
-                </ul>
-            </li>
-            <li class="menu-item">
-                <a href="#">Facturación</a>
-                <ul class="submenu">
-                    <li><a href="https://www.sunat.gob.pe/ol-ti-itemisionboletaresp/emitirbvsimp.do" target="_blank">Boleta</a></li>
-                    <li><a href="https://www.sunat.gob.pe/ol-ti-itemisionfacturaresp/emitirfesimp.do" target="_blank">Factura</a></li>
-                </ul>
-            </li>
-            <li class="menu-item">
-                <a href="/login">Cerrar Sesión</a>
-            </li>
-        </ul>
+<body class="bg-light">
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #007BFF;"> <!-- Cambié el color de fondo aquí -->
+            <div class="container">
+                <a class="navbar-brand" href="#">Sistema de Gestión de Inventario de Repuestos</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownProducto" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Producto
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownProducto">
+                                <li><a class="dropdown-item" href="/producto/nuevo">Nuevo Producto</a></li>
+                                <li><a class="dropdown-item" href="/producto/gestionar">Gestionar Producto</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCliente" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Cliente
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownCliente">
+                                <li><a class="dropdown-item" href="/cliente/nuevo">Nuevo Cliente</a></li>
+                                <li><a class="dropdown-item" href="/cliente/gestionar">Gestionar Cliente</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUsuario" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Usuario
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownUsuario">
+                                <li><a class="dropdown-item" href="/usuario/nuevo">Nuevo Usuario</a></li>
+                                <li><a class="dropdown-item" href="/usuario/gestionar">Gestionar Usuario</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCategoria" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Categoría
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownCategoria">
+                                <li><a class="dropdown-item" href="/categoria/nuevo">Nueva Categoría</a></li>
+                                <li><a class="dropdown-item" href="/categoria/gestionar">Gestionar Categoría</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownFacturacion" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Facturación
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownFacturacion">
+                                <li><a class="dropdown-item" href="https://www.sunat.gob.pe/ol-ti-itemisionboletaresp/emitirbvsimp.do" target="_blank">Boleta</a></li>
+                                <li><a class="dropdown-item" href="https://www.sunat.gob.pe/ol-ti-itemisionfacturaresp/emitirfesimp.do" target="_blank">Factura</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownVenta" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Venta
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownVenta">
+                                <li><a class="dropdown-item" href="/venta/nuevo">Nueva Venta</a></li>
+                                <li><a class="dropdown-item" href="/venta/gestionar">Gestionar Venta</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-danger" href="/login">Cerrar Sesión</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container mt-5">
+            <h2 class="text-center">Bienvenido al Sistema de Gestión de Inventario de Repuestos</h2>
+            <p class="text-center">Elija una opción del menú superior para gestionar los diferentes elementos.</p>
+        </div>
     </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

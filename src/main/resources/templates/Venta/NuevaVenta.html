@@ -1,10 +1,266 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nueva Venta</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
+	<div class="container mt-4">
+		<h2>Nueva Venta</h2>
 
+		<div class="form-group row">
+			<label for="cliente" class="col-sm-2 col-form-label">Cliente:</label>
+			<div class="col-sm-6">
+				<select id="cliente" class="form-control">
+					<option value="">Seleccione un cliente</option>
+				</select>
+			</div>
+			<div class="col-sm-3">
+				<input type="text" id="buscarCliente" class="form-control"
+					placeholder="Buscar por Nombre o DNI/RUC">
+			</div>
+			<div class="col-sm-1">
+				<button id="btnBuscarCliente" class="btn btn-primary">Buscar</button>
+			</div>
+		</div>
+
+		<!-- Producto Section -->
+		<div class="form-group row">
+			<label for="producto" class="col-sm-2 col-form-label">Producto:</label>
+			<div class="col-sm-6">
+				<select id="producto" class="form-control">
+					<option value="">Seleccione un producto</option>
+				</select>
+			</div>
+			<div class="col-sm-2">
+				<input type="number" id="cantidad" class="form-control"
+					placeholder="Cantidad" min="1">
+			</div>
+			<div class="col-sm-2">
+				<button id="btnAñadirProducto" class="btn btn-success">Añadir</button>
+			</div>
+		</div>
+
+		<!-- Tabla de Productos -->
+		<table class="table table-bordered mt-4">
+			<thead class="thead-dark">
+				<tr>
+					<th>N°</th>
+					<th>Nombre</th>
+					<th>Cantidad</th>
+					<th>P. Unitario</th>
+					<th>Descuento</th>
+					<th>IGV</th>
+					<th>Total Pagar</th>
+					<th>Acción</th>
+				</tr>
+			</thead>
+			<tbody id="tablaProductos">
+				<!-- Productos añadidos dinámicamente -->
+			</tbody>
+		</table>
+
+		<!-- Totales -->
+		<div class="row">
+			<div class="col-md-6 offset-md-6">
+				<table class="table table-borderless">
+					<tr>
+						<th>Subtotal:</th>
+						<td id="subtotal">0.00</td>
+					</tr>
+					<tr>
+						<th>Descuento:</th>
+						<td id="descuento">0.00</td>
+					</tr>
+					<tr>
+						<th>IGV:</th>
+						<td id="igv">0.00</td>
+					</tr>
+					<tr>
+						<th>Total a Pagar:</th>
+						<td id="totalPagar">0.00</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+
+		<!-- Efectivo y Cambio -->
+		<div class="form-group row">
+			<label for="efectivo" class="col-sm-2 col-form-label">Efectivo:</label>
+			<div class="col-sm-4">
+				<input type="number" id="efectivo" class="form-control" min="0"
+					placeholder="Monto recibido">
+			</div>
+			<label for="cambio" class="col-sm-2 col-form-label">Cambio:</label>
+			<div class="col-sm-4">
+				<input type="text" id="cambio" class="form-control" disabled>
+			</div>
+		</div>
+
+		<!-- Botón Registrar Venta -->
+		<div class="text-right">
+			<button id="btnRegistrarVenta" class="btn btn-primary">Registrar
+				Venta</button>
+		</div>
+	</div>
+
+	<script>
+        // Cargar clientes y productos al inicializar la página
+        $(document).ready(function () {
+            cargarClientes();
+            cargarProductos();
+
+            // Actualizar cambio automáticamente
+            $('#efectivo').on('input', function () {
+                let totalPagar = parseFloat($('#totalPagar').text()) || 0;
+                let efectivo = parseFloat($(this).val()) || 0;
+                let cambio = efectivo - totalPagar;
+                $('#cambio').val(cambio >= 0 ? cambio.toFixed(2) : '');
+            });
+        });
+
+        // Función para cargar clientes
+        function cargarClientes() {
+            axios.get('/cliente/listaCliente')
+                .then(response => {
+                    const clientes = response.data;
+                    $('#cliente').empty(); // Limpiar opciones existentes
+                    $('#cliente').append(`<option value="">Seleccione un cliente</option>`);
+                    clientes.forEach(cliente => {
+                        $('#cliente').append(`<option value="${cliente.id_cliente}">${cliente.nombre}</option>`);
+                    });
+                })
+                .catch(error => {
+                    console.error("Error al cargar clientes:", error);
+                });
+        }
+
+        // Función para buscar clientes
+        $('#btnBuscarCliente').click(function () {
+            const filtro = $('#buscarCliente').val();
+            axios.get(`/cliente/buscar?filtro=${filtro}`)
+                .then(response => {
+                    const clientes = response.data;
+                    $('#cliente').empty(); // Limpiar opciones existentes
+                    $('#cliente').append(`<option value="">Seleccione un cliente</option>`);
+                    clientes.forEach(cliente => {
+                        $('#cliente').append(`<option value="${cliente.id_cliente}">${cliente.nombre}</option>`);
+                    });
+                })
+                .catch(error => {
+                    console.error("Error al buscar clientes:", error);
+                });
+        });
+
+     // Función para cargar productos
+        function cargarProductos() {
+            axios.get('/producto/listaProducto')
+                .then(response => {
+                    const productos = response.data;
+                    $('#producto').empty(); // Limpiar opciones existentes
+                    $('#producto').append(`<option value="">Seleccione un producto</option>`);
+                    productos.forEach(producto => {
+                        // Agregar código y nombre en el formato "código - nombre"
+                        $('#producto').append(`<option value="${producto.id_producto}">${producto.codigo} - ${producto.nombre}</option>`);
+                    });
+                })
+                .catch(error => {
+                    console.error("Error al cargar productos:", error);
+                });
+        }
+
+
+
+        // Añadir producto a la tabla
+        $('#btnAñadirProducto').click(function () {
+            const productoId = $('#producto').val();
+            const productoNombre = $('#producto option:selected').text();
+            const cantidad = parseInt($('#cantidad').val()) || 0;
+
+            if (productoId && cantidad > 0) {
+                // Aquí podrías añadir lógica para obtener precio unitario, descuento, etc.
+                const precioUnitario = 10.00; // Ejemplo estático
+                const descuento = 0.00; // Ejemplo estático
+                const igv = precioUnitario * cantidad * 0.18; // Ejemplo 18%
+                const totalPagar = (precioUnitario * cantidad) + igv - descuento;
+
+                const rowCount = $('#tablaProductos tr').length + 1;
+                $('#tablaProductos').append(`
+                    <tr>
+                        <td>${rowCount}</td>
+                        <td>${productoNombre}</td>
+                        <td>${cantidad}</td>
+                        <td>${precioUnitario.toFixed(2)}</td>
+                        <td>${descuento.toFixed(2)}</td>
+                        <td>${igv.toFixed(2)}</td>
+                        <td>${totalPagar.toFixed(2)}</td>
+                        <td><button class="btn btn-danger btn-sm eliminarProducto">Eliminar</button></td>
+                    </tr>
+                `);
+
+                actualizarTotales();
+            }
+        });
+
+        // Eliminar producto de la tabla
+        $(document).on('click', '.eliminarProducto', function () {
+            $(this).closest('tr').remove();
+            actualizarTotales();
+        });
+
+        // Actualizar totales
+        function actualizarTotales() {
+            let subtotal = 0;
+            let descuento = 0;
+            let igv = 0;
+
+            $('#tablaProductos tr').each(function () {
+                const total = parseFloat($(this).find('td').eq(6).text()) || 0;
+                subtotal += total;
+            });
+
+            igv = subtotal * 0.18; // Ejemplo 18%
+            const totalPagar = subtotal + igv - descuento;
+
+            $('#subtotal').text(subtotal.toFixed(2));
+            $('#descuento').text(descuento.toFixed(2));
+            $('#igv').text(igv.toFixed(2));
+            $('#totalPagar').text(totalPagar.toFixed(2));
+        }
+
+     // Registrar venta
+        $('#btnRegistrarVenta').click(function () {
+            const clienteId = $('#cliente').val();
+            const productos = [];
+
+            $('#tablaProductos tr').each(function () {
+                const producto = {
+                    nombre: $(this).find('td').eq(1).text(),
+                    cantidad: parseInt($(this).find('td').eq(2).text()),
+                    precioUnitario: parseFloat($(this).find('td').eq(3).text()),
+                    descuento: parseFloat($(this).find('td').eq(4).text()),
+                    igv: parseFloat($(this).find('td').eq(5).text()),
+                    totalPagar: parseFloat($(this).find('td').eq(6).text())
+                };
+                productos.push(producto);
+            });
+
+            const venta = {
+                clienteId,
+                productos,
+                totalPagar: parseFloat($('#totalPagar').text())
+            };
+
+            axios.post('/reporteVenta/guardar', venta)
+                .then(response => alert('Venta registrada correctamente'))
+                .catch(error => alert('Error al registrar la venta'));
+        });
+
+    </script>
 </body>
 </html>

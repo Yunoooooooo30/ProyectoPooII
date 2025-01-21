@@ -3,10 +3,13 @@ package com.example.demo.service.impl;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
 import com.example.demo.entity.Venta;
 import com.example.demo.repository.VentaRepository;
 import com.example.demo.service.VentaService;
 
+@Service("ventaservice")
 public class VentaServiceImpl implements VentaService{
 	
 	@Autowired
@@ -37,9 +40,9 @@ public class VentaServiceImpl implements VentaService{
 	public List<Venta> buscarPorFiltro(String tipo, String valor) {
 		switch (tipo) {
 		case "idVenta":
-			return ventaRepository.findByIDVentaContaining(valor);
+			return ventaRepository.findByIdVentaContaining(valor);
 		case "idProducto":
-			return ventaRepository.findByIDProdutoContaining(valor);
+			return ventaRepository.findByIdProductoContaining(valor);
 		default:
 			return listAllVenta();
 		}	

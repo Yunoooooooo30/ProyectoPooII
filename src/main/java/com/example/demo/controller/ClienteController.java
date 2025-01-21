@@ -16,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.example.demo.entity.Cliente;
 import com.example.demo.service.ClienteService;
 
-
 @Controller
 @RequestMapping("/cliente")
 public class ClienteController {
@@ -25,15 +24,14 @@ public class ClienteController {
 	private ClienteService clienteService;
 	
 	@GetMapping("/listaCliente")
-    public ModelAndView listAllClientes() {
-        ModelAndView mav = new ModelAndView("listaCliente");
-        List<Cliente> clientes = clienteService.listAllCliente();
-        if (clientes == null || clientes.isEmpty()) {
-            System.out.println("No se encontraron clientes en la base de datos.");
-        }
-        mav.addObject("clientes", clientes);
-        return mav;
-    }
+	@ResponseBody
+	public List<Cliente> listAllClientes() {
+	    List<Cliente> clientes = clienteService.listAllCliente();
+	    if (clientes == null || clientes.isEmpty()) {
+	        System.out.println("No se encontraron clientes en la base de datos.");
+	    }
+	    return clientes;
+	}
 
     @GetMapping("/buscar")
     @ResponseBody

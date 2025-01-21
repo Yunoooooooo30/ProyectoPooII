@@ -14,7 +14,7 @@
                 <h3>Registrar Nuevo Cliente</h3>
             </div>
             <div class="card-body">
-                <form id="formNuevoCliente" method="post" action="/cliente/guardar">
+                <form id="formNuevoCliente">
                     <!-- DNI o RUC -->
                     <div class="mb-3">
                         <label for="tipo_documento" class="form-label">Tipo de Documento:</label>
@@ -50,7 +50,7 @@
 
                     <!-- Botones -->
                     <div class="d-flex justify-content-between">
-                        <button type="submit" class="btn btn-primary">Guardar Cliente</button>
+                        <button type="button" class="btn btn-primary" id="guardarClienteBtn">Guardar Cliente</button>
                         <a href="/cliente/gestionar" class="btn btn-secondary">Cancelar</a>
                         <a href="/menuPrincipal" class="btn btn-success">Menú Principal</a>
                     </div>
@@ -61,5 +61,34 @@
 
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('guardarClienteBtn').addEventListener('click', function () {
+
+            // Obtener los valores del formulario
+            const tipoDocumento = document.getElementById('tipo_documento').value;
+            const dniRuc = document.getElementById('dni_ruc').value;
+            const nombre = document.getElementById('nombre').value;
+            const celular = document.getElementById('celular').value;
+            const direccion = document.getElementById('direccion').value;
+
+            fetch('/cliente/guardar', {
+            	  method: "POST",
+            	  headers: { "Content-Type": "application/json" },
+            	  body: JSON.stringify({
+            	    tipoDocumento: tipoDocumento,
+            	    dniRuc: dniRuc,
+            	    nombre: nombre,
+            	    celular: celular,
+            	    direccion: direccion
+            	  })
+            	})
+            .then(response => response.text())
+            .then(data => {
+                alert(data); // Mostrar mensaje de éxito
+                window.location.href = '/cliente/gestionar'; // Redirigir a la página de gestionar clientes
+            })
+            .catch(error => console.error('Error al guardar el cliente:', error));
+        });
+    </script>
 </body>
 </html>
